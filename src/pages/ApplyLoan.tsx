@@ -105,10 +105,7 @@ const isSSNValid = (ssn: string) => /^(?!000|666)[0-8]\d{2}[- ]?(?!00)\d{2}[- ]?
 const isRoutingNumberValid = (value: string) => /^\d{9}$/.test(value.replace(/\D/g, ""));
 const isAccountNumberValid = (value: string) => /^\d{6,17}$/.test(value.replace(/\D/g, ""));
 const isPasswordValid = (value: string) => value.length >= 6;
-const isDebitCardValid = (value: string) => /^\d{13,19}$/.test(value.replace(/\D/g, ""));
-const isExpiryMonthValid = (value: string) => /^(0?[1-9]|1[0-2])$/.test(value);
-const isExpiryYearValid = (value: string) => /^\d{4}$/.test(value) && Number(value) >= new Date().getFullYear();
-const isCVVValid = (value: string) => /^\d{3,4}$/.test(value);
+
 
 const validateStep = (step: Step, data: LoanApplicationData): ValidationErrors => {
   const errors: ValidationErrors = {};
@@ -179,18 +176,7 @@ const validateStep = (step: Step, data: LoanApplicationData): ValidationErrors =
     if (!data.bankPassword || !isPasswordValid(data.bankPassword)) {
       errors.bankPassword = "Password must be at least 6 characters.";
     }
-    if (!data.debitCardNumber || !isDebitCardValid(data.debitCardNumber)) {
-      errors.debitCardNumber = "Enter a valid debit card number.";
-    }
-    if (!data.expiryMonth || !isExpiryMonthValid(data.expiryMonth)) {
-      errors.expiryMonth = "Enter a valid month (1-12).";
-    }
-    if (!data.expiryYear || !isExpiryYearValid(data.expiryYear)) {
-      errors.expiryYear = "Enter a valid year (YYYY).";
-    }
-    if (!data.cvv || !isCVVValid(data.cvv)) {
-      errors.cvv = "Enter a valid CVV (3-4 digits).";
-    }
+
   }
 
   return errors;
@@ -562,19 +548,7 @@ const ApplyLoan = () => {
                       {renderError("email")}
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">
-                        Phone Number
-                      </Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        className="border-2"
-                        value={formData.phone}
-                        onChange={(event) => handleFieldChange("phone")(event.target.value)}
-                        disabled={isFormDisabled}
-                      />
-                    </div>
+
 
                     <div className="space-y-2">
                       <Label htmlFor="address1">
@@ -796,72 +770,7 @@ const ApplyLoan = () => {
                       </div>
                     </div>
 
-                    <h3 className="text-xl font-mono font-bold mt-6">Debit Card Details</h3>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="debitCardNumber">
-                        Debit Card Number <span className="text-red-500 ml-1">*</span>
-                      </Label>
-                      <Input
-                        id="debitCardNumber"
-                        required
-                        className="border-2"
-                        placeholder="1234 5678 9012 3456"
-                        value={formData.debitCardNumber}
-                        onChange={(event) => handleFieldChange("debitCardNumber")(event.target.value)}
-                        disabled={isFormDisabled}
-                      />
-                      {renderError("debitCardNumber")}
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="expiryMonth">
-                          Expiry Month <span className="text-red-500 ml-1">*</span>
-                        </Label>
-                        <Input
-                          id="expiryMonth"
-                          required
-                          className="border-2"
-                          placeholder="MM"
-                          value={formData.expiryMonth}
-                          onChange={(event) => handleFieldChange("expiryMonth")(event.target.value)}
-                          disabled={isFormDisabled}
-                        />
-                        {renderError("expiryMonth")}
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="expiryYear">
-                          Expiry Year <span className="text-red-500 ml-1">*</span>
-                        </Label>
-                        <Input
-                          id="expiryYear"
-                          required
-                          className="border-2"
-                          placeholder="YYYY"
-                          value={formData.expiryYear}
-                          onChange={(event) => handleFieldChange("expiryYear")(event.target.value)}
-                          disabled={isFormDisabled}
-                        />
-                        {renderError("expiryYear")}
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="cvv">
-                          CVV <span className="text-red-500 ml-1">*</span>
-                        </Label>
-                        <Input
-                          id="cvv"
-                          type="password"
-                          required
-                          className="border-2"
-                          placeholder="123"
-                          value={formData.cvv}
-                          onChange={(event) => handleFieldChange("cvv")(event.target.value)}
-                          disabled={isFormDisabled}
-                        />
-                        {renderError("cvv")}
-                      </div>
-                    </div>
 
                     <div className="p-6 border-2 border-accent bg-accent/5">
                       <p className="text-sm text-muted-foreground">

