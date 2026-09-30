@@ -1,4 +1,12 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, ".env") });
+dotenv.config();
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -16,12 +24,19 @@ app.use(express.json({ limit: "1mb" }));
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
-        callback(null, origin);
+      if (
+        !origin ||
+        allowedOrigins.length === 0 ||
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app") ||
+        process.env.VERCEL
+      ) {
+        callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
+    credentials: true,
   }),
 );
 
@@ -78,13 +93,13 @@ app.post("/api/loan-application", async (req, res) => {
     res.json({ message: "Loan application submitted successfully" });
   } catch (error) {
     console.error("Loan application submission failed", error);
-    res.status(500).json({ message: "Failed to submit loan application" });
+    res.status(500).json({ message: error?.message || "Failed to submit loan application" });
   }
 });
 
 app.use((err, req, res, next) => {
   console.error("Unhandled error", err);
-  res.status(500).json({ message: "Internal server error" });
+  res.status(500).json({ message: err?.message || "Internal server error" });
 });
 
 if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
